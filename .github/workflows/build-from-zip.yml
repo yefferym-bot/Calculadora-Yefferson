@@ -13,9 +13,10 @@ jobs:
 
       - name: Descomprimir proyecto
         run: |
-          unzip -q Calculadora-Yefferson-Proyecto.zip
-          cd Calculadora-Yefferson
-          ls -la
+         unzip -q Calculadora-Yefferson-Proyecto.zip
+         PROJECT_DIR=$(dirname "$(find . -name settings.gradle -print -quit)")
+         echo "Proyecto encontrado en: $PROJECT_DIR"
+         echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
 
       - name: Configurar Java
         uses: actions/setup-java@v5
@@ -36,11 +37,11 @@ jobs:
 
       - name: Compilar APK
         run: |
-          cd Calculadora-Yefferson
-          gradle assembleDebug --no-daemon
+         cd "$PROJECT_DIR"
+         gradle assembleDebug --no-daemon
 
       - name: Guardar APK
         uses: actions/upload-artifact@v4
         with:
           name: Calculadora-Yefferson-APK
-          path: Calculadora-Yefferson/app/build/outputs/apk/debug/app-debug.apk
+          path: **/app/build/outputs/apk/debug/app-debug.apk
