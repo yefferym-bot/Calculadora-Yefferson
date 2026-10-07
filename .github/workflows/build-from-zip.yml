@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Descargar ZIP
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Descomprimir proyecto
         run: |
@@ -18,16 +18,14 @@ jobs:
           ls -la
 
       - name: Configurar Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
 
-      - name: Configurar Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Instalar SDK Android
         run: |
+          yes | sdkmanager --licenses || true
           sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
       - name: Configurar Gradle
