@@ -86,8 +86,15 @@ jobs:
         run: |
           rm -f "$PROJECT_DIR/app/yefferson-release-key.jks"
 
-      - name: Guardar APK Release
+      - name: Buscar APK generado
+        run: |
+            echo "=== APK GENERADOS ==="
+            find "$PROJECT_DIR/app/build/outputs" -type f -name "*.apk" -print
+
+      - name: Guardar APK
         uses: actions/upload-artifact@v4
         with:
-          name: Calculadora-Yefferson-V6-RELEASE-FIRMADA
-          path: "**/app/build/outputs/apk/release/app-release.apk"
+            name: Calculadora-Yefferson-V6-RELEASE-FIRMADA
+            path: |
+              **/app/build/outputs/**/*.apk
+            if-no-files-found: error
